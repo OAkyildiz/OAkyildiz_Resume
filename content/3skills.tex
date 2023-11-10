@@ -1,0 +1,44 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%helper consumes array
+\newcommand{\makeRow}[1]{%
+\foreach \x [count=\xi] in {#1 } { \x\par}%
+}
+%handle for skills style
+\newcommand{\handle}[3][1]{#2#3}
+\newcommand{\skillColumn}[3][0.5]{\cvcolumn{\textbf{#2}}{\makeRow{#3}}}%for loop here
+\newcommand{\skillColumnCenter}[3][0.5]{\cvcolumn{\textbf{#2}}{\begin{center}#3\end{center}}}%for loop here
+
+
+
+
+
+%this is somewhat outdated, sepeate groups work with /let/handle/cvitem
+\newcommand{\skillsOld}{\handle{Programming}{\subgroup{Advanced}{C++, C, Python, MatLab, XML}\subgroup{Proficient}{Java, JavaScript}}
+\handle{Software}{\subgroup{Frameworks/APIs}{ROS, Android, Qt, OpenCV, TensorFlow, Keras, AWS}\subgroup{CAD}{Solidworks, AutoCAD, TopSolid}\subgroup{Visual Design}{Photoshop, Flash Studio, Maya, 3ds Max}}%\subgroup{Office}{MS Excel, Access, LaTeX}%openrave
+\handle{Embedded Systems}{Jetson TX2, Arduino, MSP}
+\handle{Engineering}{Computer Vision, Robot Interfaces, Systems Engineering, AI, Shared Autonomy, SLAM Controls, Digital Signal Processing, Circuit Analysis, Engineering Design, Material Analysis, Rapid Prototyping}
+\handle{Organizational}{Team Leadership, Project Management, Problem Solving, Public speaking}
+\handle{Language}{Native Turkish, Beginner German.}
+}
+%\subsection{Programming/Scripting}
+%\cvdoubleitem{Advanced}{C++, C, Python, MatLab, LaTeX, XML}{Proficient}{Java, JavaScript}{}
+\newcommand{\skillsCode}{\handle{Programming}{C++, Python, Solidity, JavaScript, MatLab}}
+\newcommand{\skillsCodeB}{\handle{Programming}{C++, Python, Solidity, JavaScript}}
+\newcommand{\skillsCodeWeb}{\handle{Programming}{Python, JavaScript, C/C++}}
+\newcommand{\skillsPlatRBE}{\handle{Software}{ ROS, Linux, OpenCV, QT,   tensorflow}}
+
+\newcommand{\skillsSwBC}{\handle{Software}{ ROS, Linux, Git, Truffle}}
+
+\newcommand{\skillsBlockchain}{\handle{Professional}{ Systems Engineering, Tokenomics, Smart Contracts, Robot HW \& SW}}
+
+\newcommand{\skillsRobotics}{\handle{Professional}{ Systems Engineering, Circuit Design, Robot Control, Sensor Modules, CAD}}
+\newcommand{\skillsHardRBE}{\handle{Hardware}{Circuit Design,  Robot Actuators, Autonomous Vehicles}}
+
+\newcommand{\skillsPlatWEB}{\handle{Web Dev}{ React, JQuery, AWS, Flask, WebGL}}
+\newcommand{\skillsEmb}{\handle{Embedded}{Jetson, Raspberry PI, Arduino, MSP}}
+%\newcommand{\skillsPlatVR}{\handle{APIs}{Android, Qt, Unity, ROSJava}}
+\newcommand{\skillsPlatCAD}{\handle{CAD}{ROSJava, Android, Qt, Unity}}
+\newcommand{\skillsLang}{\handle{Language}{Fluent English, Native Turkish, Beginner German}}
+\newcommand{\skillsOrg}{\handle{Organizational}{Systems Engineering, Project Management, Public speaking}}
+
+

@@ -1,0 +1,231 @@
+%%% Customizations and Tweaks %%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{moderncvtweaks}[2023/08/03 v1.5.1b personal customization for scheme: banking]
+
+
+\newlength{\makecvheadnamewidth }
+\setlength{\makecvheadnamewidth }{0pt}% dummy value
+
+%%%%%%%% Title %%%%%%%
+
+% Center
+
+\renewcommand*{\makecvtitle}{%
+  % recompute lengths (in case we are switching from letter to resume, or vice versa)
+  \recomputecvlengths%
+  \maketitle%
+  % optional quote
+  \ifthenelse{\isundefined{\@quote}}%
+    {}%
+    {{\centering\begin{minipage}{\quotewidth}\centering\quotestyle{\@quote}\end{minipage}\\[0.2em]}}%
+  \par}
+\newcommand{\raisedrule}[2][0em]{\leavevmode\leaders\hbox{\rule[#1]{1pt}{#2}}\hfill\kern0pt}
+
+
+% Left Aligned
+
+\newcommand*{\makecvtitleleft}{%
+  % recompute lengths (in case we are switching from letter to resume, or vice versa)
+  \recomputecvlengths%
+  % optional detailed information (pre-rendering)
+  \def\phonesdetails{}%
+  \collectionloop{phones}{% the key holds the phone type (=symbol command prefix), the item holds the number
+    \protected@edef\phonesdetails{\phonesdetails\protect\makenewline\collectionloopitem\:\csname\collectionloopkey phonesymbol\endcsname}}%
+  \def\socialsdetails{}%
+  \collectionloop{socials}{% the key holds the social type (=symbol command prefix), the item holds the link
+    \protected@edef\socialsdetails{\socialsdetails\protect\makenewline\collectionloopitem\:\csname\collectionloopkey socialsymbol\endcsname}}%
+  \newbox{\makecvtitledetailsbox}%
+  \savebox{\makecvtitledetailsbox}{%
+    \addressfont\color{color2}%
+    \begin{tabular}[b]{@{}r@{}}%
+      \ifthenelse{\isundefined{\@addressstreet}}{}{\makenewline\@addressstreet%
+        \ifthenelse{\equal{\@addresscity}{}}{}{ \@addresscity}% if \addresstreet is defined, \addresscity and addresscountry will always be defined but could be empty
+        \ifthenelse{\equal{\@addresscountry}{}}{}{, \@addresscountry}\:\addresssymbol}%
+      \phonesdetails% needs to be pre-rendered as loops and tabulars seem to conflict
+      \ifthenelse{\isundefined{\@email}}{}{\makenewline\emaillink{\@email}\:\emailsymbol}%
+      \ifthenelse{\isundefined{\@homepage}}{}{\makenewline\httplink{\@homepage}\:\homepagesymbol}%
+      \socialsdetails% needs to be pre-rendered as loops and tabulars seem to conflict
+      \ifthenelse{\isundefined{\@extrainfo}}{}{\makenewline\@extrainfo}%
+    \end{tabular}
+  }%
+  % optional photo (pre-rendering)
+  \newbox{\makecvtitlepicturebox}%
+  \savebox{\makecvtitlepicturebox}{%
+    \ifthenelse{\isundefined{\@photo}}%
+    {}%
+    {%
+      %\hspace*{\separatorcolumnwidth}%
+      \color{color1}%
+      \setlength{\fboxrule}{\@photoframewidth}%
+      \ifdim\@photoframewidth=0pt%
+        \setlength{\fboxsep}{0pt}\fi%
+      \framebox{\includegraphics[width=\@photowidth]{\@photo}}}}%
+  % name and title
+  \newlength{\makecvtitledetailswidth}\settowidth{\makecvtitledetailswidth}{\usebox{\makecvtitledetailsbox}}%
+  \newlength{\makecvtitlepicturewidth}\settowidth{\makecvtitlepicturewidth}{\usebox{\makecvtitlepicturebox}}%
+  \ifthenelse{\lengthtest{\makecvtitlenamewidth=0pt}}% check for dummy value (equivalent to \ifdim\makecvtitlenamewidth=0pt)
+    {\setlength{\makecvtitlenamewidth}{\textwidth-\makecvtitledetailswidth-\makecvtitlepicturewidth}}%
+    {}%
+  % optional detailed information (rendering)
+ % \usebox{\makecvtitlepicturebox}
+  \begin{minipage}[b]{\makecvtitlenamewidth}%
+    \namestyle{\@firstname\ \@lastname}%
+    \ifthenelse{\equal{\@title}{}}{}{\\[1.25em]\titlestyle{\@title}}%
+  \end{minipage}%
+  \hfill%
+  % optional detailed information (rendering)
+  \llap{\usebox{\makecvtitledetailsbox}}% \llap is used to suppress the width of the box, allowing overlap if the value of makecvtitlenamewidth is forced
+  % optional photo (rendering)
+  \usebox{\makecvtitlepicturebox}\\%
+  
+  % optional quote
+  \ifthenelse{\isundefined{\@quote}}%
+    {}%
+    {{\centering\begin{minipage}{\quotewidth}\centering\quotestyle{\@quote}\end{minipage}\\[2.5em]}}%
+  \par}% to avoid weird spacing bug at the first section if no blank line is left after \makecvtitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Section %%
+\RenewDocumentCommand{\section}{sm}{%
+  \par\addvspace{2ex}%
+  \phantomsection{}% reset the anchor for hyperrefs
+  \addcontentsline{toc}{section}{#2}
+%trailiung rule
+  %\strut\sectionstyle{#2}\raisedrule[0.5em]{1pt}
+% both sides
+  \raisedrule[0.05em]{1.5pt}\strut\enspace\,\sectionstyle{#2}\,\enspace\raisedrule[0.05em]{1.5pt}
+% rule under
+  %{\color{color1}\hrule}%
+  \par\nobreak\addvspace{1ex}\@afterheading}
+
+%%% Items & Enries
+
+\newcommand*{\cvtripleitem}[7][.25em]{%
+ \cvitem[#1]{#2}{%
+   \begin{minipage}[t]{\tripleitemmaincolumnwidth}#3\end{minipage}%
+   \hfill
+   \begin{minipage}[t]{\hintscolumnwidth}\raggedleft\hintstyle{#4}\end{minipage}%
+   \hspace*{\separatorcolumnwidth}%
+   \begin{minipage}[t]{\tripleitemmaincolumnwidth}#5\end{minipage}%
+   \hfill
+   \begin{minipage}[t]{\hintscolumnwidth}\raggedleft\hintstyle{#6}\end{minipage}%
+   \hspace*{\separatorcolumnwidth}%
+   \begin{minipage}[t]{\tripleitemmaincolumnwidth}#7\end{minipage}%
+   }%
+}
+%e.g: \cventry{year--year}{Degree}{Institution}{City}{\textit{Grade}}{Description}
+\newcommand*{\cventryold}[7][.25em]{
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\bfseries #4} & { #5} %
+	  \ifthenelse{\equal{#3}{}}{}{\\{\qquad\itshape #3\ifthenelse{\equal{#6}{}}{}{, #6}} & {\itshape #2}}%
+  \end{tabular*}%
+  \ifx&#7&%
+    \else{\\\vbox{\small \, #7}}\fi%
+  \par\addvspace{#1}}
+
+
+%%%%% Experience entries
+\renewcommand*{\cventry}[7][.4em]{
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	 \textbf{\textit{#3}\enspace--\enspace}{\textbf{#4,} #5} & {\bfseries #2} %
+  \end{tabular*}\\%
+ \vbox{  \quad  \small #7} 
+  \par\addvspace{#1}\vspace{0.35em}}
+
+
+
+%%%%%%%
+
+\newcommand*{\cventrynl}[7][.4em]{
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\textbf{#4,} #5} & {\bfseries #2} %
+  \end{tabular*}\\%
+ \vbox{ \textbf{ -- \textit{#3}} \quad  \small #7} 
+  \par\addvspace{#1}\vspace{0.35em}}
+  
+  
+  %todo
+\newcommand*{\cventrycompact}[7][.15em]{
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\textbf{#4,} #5} & {\bfseries #2} %
+  \end{tabular*}\\%
+ \vbox{   \small #7} 
+  \par\addvspace{#1}\vspace{0.2em}}
+  
+  
+ \newcommand*{\cventryproject}[7][.15em]{
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\textbf{#4,} #5} & {\bfseries #2} %
+  \end{tabular*}\\%
+ \vbox{\ifthenelse{\equal{#3}{}}{}{ \textbf{ \textit{#3\ifthenelse{\equal{#6}{}}{}{, #6}}}}  \small \ifthenelse{\equal{#7}{}}{}{\textbf{--} #7}} % % no if for description
+  \par\addvspace{#1}\vspace{0.2em}}
+  
+%\cvdoubleentry{Worcester Polytechnic Institute}{Worcester, MA}{Jan 2014 -- Oct 2017}{Master of Science}{Robotics Engineering}{\textit{3.3}}{Aug 2012 -- May 2016}{Bachelor of Science}{Robotics Engineering}{\textit{3.54}} 
+%\cventry
+\define@key{education}{degree}{\listitemsymbol {\bfseries \itshape #1}, }
+\define@key{education}{major}{\itshape #1, }
+\define@key{education}{grade}{\itshape #1}
+%\define@key{education}{dates}{\itshape#1}
+%\setkeys{education}{#3}
+
+
+
+
+%\cvdoubleeduentry{#2:Institution}{#3:City}{#4 dates1}{#5 Degree1 major1 Grade1}{#6:dates2}{#7:Degree2 major2 Grade2}{#8:Description}
+% TODO: just make this multiple
+\newcommand*{\cvdoubleeduentry}[7][.25em]{
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\bfseries #2} & {\bfseries #3} \\%
+	  {\setkeys{education}{#5}}  & {\itshape #4}\\%
+	  {\setkeys{education}{#7}} & {\itshape #6}\\%
+	  %\ifthenelse{\equal{#6}{}}{}{, #6}
+  \end{tabular*}%
+  \par\addvspace{#1}}
+
+\newcommand*{\cvtripleeduentry}[9][.25em]{
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\bfseries #2} & {\bfseries #3} \\%
+	  {\setkeys{education}{#9}}  & {\itshape #8}\\%
+	  {\setkeys{education}{#5}}  & {\itshape #4}\\%
+	  {\setkeys{education}{#7}} & {\itshape #6}\\%
+	  %\ifthenelse{\equal{#6}{}}{}{, #6}
+  \end{tabular*}%
+  \par\addvspace{#1}}
+\define@key{jobs}{title}{{\itshape #1}}
+\define@key{jobs}{assignment}{\itshape , #1 }
+%\setkeys{education}{#3}
+
+\newcommand*{\cvmultijobentryA}[7][.25em]{
+  \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\bfseries #2} & {\bfseries #3} %
+	  %{#5}\\%
+	  %\ifthenelse{\equal{#6}{}}{}{{\setkeys{education}{#6 & #7}\\}%
+	  %\ifthenelse{\equal{#8}{}}{}{{\setkeys{education}{#8 & #9}\\}%
+	  \end{tabular*}\\%
+  \vbox{\small #4}%
+  \par\addvspace{#1}
+}
+
+\newcommand*{\myWPIjobs}[1][.20em]{
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\bfseries WPI Pre-Collegiate Outreach Programs} & {\bfseries Worcester -- North Reading, MA}% 
+\end{tabular*}\\%
+\vbox{\small Mentored more than twenty 3rd to 8th graders each week for Robotics related challenges.}\\%
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+    {\itshape Teaching Assistant, LAUNCH Robotics} & {Aug 7, 2017 -- Aug 11, 2017}\\%
+    {\itshape Graduate Assistant, Junior Robotics Challenge Program at Amazon Robotics} & {Jul 24,2017 -- Aug 4, 2017} \\%
+    {\itshape Teaching Assistant, SPARK Junior Robotics} & {\itshape Jul 10, 2017 -- Jul 21,2017}%
+
+\end{tabular*}
+\par\addvspace{#1}
+}
+
+\newcommand*{\cvsinglelineentry}[4][.25em]{
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}%
+	  {\bfseries #2}{, #3} & {#4}% 
+\end{tabular*}%
+\par\addvspace{#1}
+    
+}
+
+

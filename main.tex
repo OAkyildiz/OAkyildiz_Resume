@@ -1,0 +1,97 @@
+    %% start of file `template.tex'.
+%% Copyright 2006-2013 Xavier Danaux (xdanaux@gmail.com).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License version 1.3c,
+% available at http://www.latex-project.org/lppl/.
+%\usepackage{fontspec}
+%\setmainfont[Ligatures=TeX]{Times New Roman.ttf}
+
+\documentclass[10pt, a4paper,sans]{moderncv}        % possible options include font size ('10pt', '11pt' and '12pt'), paper size ('a4paper', 'letterpaper', 'a5paper', 'legalpaper', 'executivepaper' and 'landscape') and font family ('sans' and 'roman')
+
+% moderncv themes
+
+  
+\moderncvstyle{banking}                         % *'casual', 'classic', 'oldstyle', 'banking'
+\moderncvcolor{black}                        %  *'blue','orange', 'green', 'red', 'purple', 'grey', 'black'
+
+%fix width for
+%check if file exists
+%\renewcommand{\familydefault}{\sfdefault}         % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
+%\nopagenumbers{}                                  % uncomment to suppress automatic page numbering for CVs longer than one page
+\usepackage{xpatch}
+%\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{afterpage}
+\usepackage{atbegshi}
+\usepackage{fancyhdr}
+
+
+% character encoding
+\usepackage[utf8]{inputenc}                       % if you are not using xelatex ou lualatex, replace by 
+\usepackage{moderncvtweaks}
+
+% adjust the page margins
+\usepackage[scale=0.85, top=1.2cm, bottom=0.75cm]{geometry}
+
+
+%\setlength{\hintscolumnwidth}{3cm}      % if you want to change the width of the column with the dates/
+
+% personal data
+\photo[52pt][0.4pt]{pics/OA_AI12_w_cropped}                       % optional
+\name{Ozan}{Akyildiz}
+\title{Robotics Engineer}                               % optional, remove / comment
+%US
+%\address{WPI~85~Prescott~St}{Worcester, MA 01609}{}%{country}    % optional
+%\phone[mobile]{(US) 774-253-2498}\email{oakyildiz@wpi.edu}               \social[linkedin]{ozan-akyildiz}\social[github]{oakyildiz}       \social[skype]{oakyildiz@wpi.edu}     
+
+% TR
+\address{}{Kadikoy/Istanbul}{Turkiye}%{country}    % optional
+\phone[mobile]{\Plus90 552 449 2411}\email{akyildizozan@gmail.com}               \social[linkedin]{ozan-akyildiz}\social[github]{oakyildiz} % \social[skype]{oakyildiz@wpi.edu}     
+
+%\extrainfo{additional information}                            % optional
+%resized to, 0.4pt is the thickness of the frame around it (put it to 0pt for no frame) and 'picture' is the name of the picture file
+%\quote{\large{Full-time, internship or Co-op opportunity in Robotics and Automation.}}                                % optional, remove / comment the line if not wanted
+
+%----------------------------------------------------------------------------------
+%            content
+%----------------------------------------------------------------------------------
+% \AtBeginDocument{%
+%   \rfoot{Cont.}%
+%   \AtBeginShipoutNext{%
+%     \rfoot{}%
+%   }%
+% }
+
+\begin{document}
+%\makecvtitle
+\makecvtitleleft
+\vspace{-1.5em}
+
+\input{body}
+
+\end{document}
+
+
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%
+%% EXAMPLES
+% Publications from a BibTeX file without multibib
+%  for numerical labels: \renewcommand{\bibliographyitemlabel}{\@biblabel{\arabic{enumiv}}}% CONSIDER MERGING WITH PREAMBLE PART
+%  to redefine the heading string ("Publications"): \renewcommand{\refname}{Articles}
+%\nocite{*}
+%\bibliographystyle{plain}
+%\bibliography{publications}                        % 'publications' is the name of a BibTeX file
+
+% Publications from a BibTeX file using the multibib package
+%\section{Publications}
+%\nocitebook{book1,book2}
+%\bibliographystylebook{plain}
+%\bibliographybook{publications}                   % 'publications' is the name of a BibTeX file
+%\nocitemisc{misc1,misc2,misc3}
+%\bibliographystylemisc{plain}
+%\bibliographymisc{publications}                   % 'publications' is the name of a BibTeX file
+
+%% end of file `main.tex'.
